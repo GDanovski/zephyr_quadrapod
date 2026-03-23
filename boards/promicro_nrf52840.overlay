@@ -70,6 +70,34 @@
 		min-pulse = <PWM_USEC(1000)>;
 		max-pulse = <PWM_USEC(2000)>;
 	};
+
+	leg0: leg-front-left {
+		compatible = "zephyr,leg";
+		label = "Front Left Leg";
+		coxa = <&servo0>;
+		femur = <&servo1>;
+	};
+
+	leg1: leg-front-right {
+		compatible = "zephyr,leg";
+		label = "Front Right Leg";
+		coxa = <&servo2>;
+		femur = <&servo3>;
+	};
+
+	leg2: leg-back-left {
+		compatible = "zephyr,leg";
+		label = "Back Left Leg";
+		coxa = <&servo4>;
+		femur = <&servo5>;
+	};
+
+	leg3: leg-back-right {
+		compatible = "zephyr,leg";
+		label = "Back Right Leg";
+		coxa = <&servo6>;
+		femur = <&servo7>;
+	};
 };
 
 &sw_pwm {
