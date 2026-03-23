@@ -1,0 +1,86 @@
+/*
+ * Copyright (C) 2026 Georgi Danovski
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+/ {
+	servo0: servo0 {
+		compatible = "pwm-servo";
+		pwms = <&sw_pwm 0 PWM_MSEC(20) PWM_POLARITY_NORMAL>;
+		min-pulse = <PWM_USEC(1000)>;
+		max-pulse = <PWM_USEC(2000)>;
+	};
+
+	servo1: servo1 {
+		compatible = "pwm-servo";
+		pwms = <&sw_pwm 1 PWM_MSEC(20) PWM_POLARITY_NORMAL>;
+		min-pulse = <PWM_USEC(1000)>;
+		max-pulse = <PWM_USEC(2000)>;
+	};
+
+	servo2: servo2 {
+		compatible = "pwm-servo";
+		pwms = <&sw_pwm 2 PWM_MSEC(20) PWM_POLARITY_NORMAL>;
+		min-pulse = <PWM_USEC(1000)>;
+		max-pulse = <PWM_USEC(2000)>;
+	};
+
+	servo3: servo3 {
+		compatible = "pwm-servo";
+		pwms = <&sw_pwm 3 PWM_MSEC(20) PWM_POLARITY_NORMAL>;
+		min-pulse = <PWM_USEC(1000)>;
+		max-pulse = <PWM_USEC(2000)>;
+	};
+
+	servo4: servo4 {
+		compatible = "pwm-servo";
+		pwms = <&sw_pwm 4 PWM_MSEC(20) PWM_POLARITY_NORMAL>;
+		min-pulse = <PWM_USEC(1000)>;
+		max-pulse = <PWM_USEC(2000)>;
+	};
+
+	servo5: servo5 {
+		compatible = "pwm-servo";
+		pwms = <&sw_pwm 5 PWM_MSEC(20) PWM_POLARITY_NORMAL>;
+		min-pulse = <PWM_USEC(1000)>;
+		max-pulse = <PWM_USEC(2000)>;
+	};
+
+	servo6: servo6 {
+		compatible = "pwm-servo";
+		pwms = <&sw_pwm 6 PWM_MSEC(20) PWM_POLARITY_NORMAL>;
+		min-pulse = <PWM_USEC(1000)>;
+		max-pulse = <PWM_USEC(2000)>;
+	};
+
+	servo7: servo7 {
+		compatible = "pwm-servo";
+		pwms = <&sw_pwm 7 PWM_MSEC(20) PWM_POLARITY_NORMAL>;
+		min-pulse = <PWM_USEC(1000)>;
+		max-pulse = <PWM_USEC(2000)>;
+	};
+};
+
+&sw_pwm {
+	status = "okay";
+	clock-prescaler = <3>;
+	channel-gpios = <&gpio0 6 GPIO_ACTIVE_HIGH>,
+			<&gpio0 7 GPIO_ACTIVE_HIGH>,
+			<&gpio0 8 GPIO_ACTIVE_HIGH>,
+			<&gpio0 12 GPIO_ACTIVE_HIGH>,
+			<&gpio0 13 GPIO_ACTIVE_HIGH>,
+			<&gpio0 14 GPIO_ACTIVE_HIGH>,
+			<&gpio0 16 GPIO_ACTIVE_HIGH>,
+			<&gpio0 17 GPIO_ACTIVE_HIGH>;
+};
