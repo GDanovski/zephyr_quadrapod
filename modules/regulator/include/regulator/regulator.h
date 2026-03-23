@@ -15,23 +15,24 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-#include <zephyr/kernel.h>
-#include <zephyr/logging/log.h>
+#ifndef REGULATOR_REGULATOR_H_
+#define REGULATOR_REGULATOR_H_
 
-#include "regulator/regulator.h"
-
-LOG_MODULE_REGISTER(app);
-
-int main(void)
+#ifdef __cplusplus
+extern "C"
 {
-        regulator_configure_regout0_3v3();
-        LOG_INF("Application zephyr_quadrapod started");
+#endif
 
-        while (1)
-        {
-                LOG_INF("still running");
-                k_sleep(K_SECONDS(1));
-        }
+    /**
+     * @brief Configure REGOUT0 to 3.3V when supported by the target.
+     *
+     * Programs UICR REGOUT0 to 3.3V if needed and triggers a system reset so
+     * the new voltage setting is applied.
+     */
+    void regulator_configure_regout0_3v3(void);
 
-        return 0;
+#ifdef __cplusplus
 }
+#endif
+
+#endif /* REGULATOR_REGULATOR_H_ */
