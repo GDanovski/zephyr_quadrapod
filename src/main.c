@@ -21,6 +21,7 @@
 #include "voltage_regulator/voltage_regulator.h"
 
 LOG_MODULE_REGISTER(app);
+LOG_MODULE_REGISTER(app, CONFIG_APP_LOG_LEVEL);
 
 int main(void)
 {

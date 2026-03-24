@@ -27,7 +27,7 @@
 
 #define DT_DRV_COMPAT danovski_leg
 
-LOG_MODULE_REGISTER(leg, CONFIG_LOG_DEFAULT_LEVEL);
+LOG_MODULE_REGISTER(leg, CONFIG_LEG_MODULE_LOG_LEVEL);
 
 BUILD_ASSERT(DT_HAS_COMPAT_STATUS_OKAY(DT_DRV_COMPAT),
              "No status=\"okay\" danovski,leg nodes found in devicetree");

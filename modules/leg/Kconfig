@@ -31,6 +31,15 @@ config LEG_MODULE_INIT_PRIORITY
 	help
 	  Initialization priority for danovski,leg devices at POST_KERNEL level.
 
+config LEG_MODULE_LOG_LEVEL
+	int "LEG module log level"
+	range 0 4
+	default 3
+	depends on LOG
+	help
+	  Log level for the LEG module.
+	  0: off, 1: error, 2: warning, 3: info, 4: debug.
+
 endif
 
 endmenu

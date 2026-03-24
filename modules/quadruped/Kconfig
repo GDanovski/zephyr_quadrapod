@@ -33,6 +33,15 @@ config QUADRUPED_MODULE_INIT_PRIORITY
 	  level. Use a value higher than LEG_MODULE_INIT_PRIORITY to initialize after
 	  all leg devices.
 
+config QUADRUPED_MODULE_LOG_LEVEL
+	int "Quadruped module log level"
+	range 0 4
+	default 3
+	depends on LOG
+	help
+	  Log level for the quadruped module.
+	  0: off, 1: error, 2: warning, 3: info, 4: debug.
+
 endif
 
 endmenu

@@ -22,4 +22,17 @@ config VOLTAGE_REGULATOR_MODULE
 	  Enable the voltage regulator module. When enabled, programs the nRF UICR
 	  REGOUT0 register to 3.3 V on startup.
 
+if VOLTAGE_REGULATOR_MODULE
+
+config VOLTAGE_REGULATOR_MODULE_LOG_LEVEL
+	int "Voltage regulator module log level"
+	range 0 4
+	default 3
+	depends on LOG
+	help
+	  Log level for the voltage regulator module.
+	  0: off, 1: error, 2: warning, 3: info, 4: debug.
+
+endif
+
 endmenu

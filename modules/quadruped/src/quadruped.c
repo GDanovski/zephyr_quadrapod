@@ -27,7 +27,7 @@
 
 #define DT_DRV_COMPAT danovski_quadruped
 
-LOG_MODULE_REGISTER(quadruped, CONFIG_LOG_DEFAULT_LEVEL);
+LOG_MODULE_REGISTER(quadruped, CONFIG_QUADRUPED_MODULE_LOG_LEVEL);
 
 BUILD_ASSERT(DT_HAS_COMPAT_STATUS_OKAY(DT_DRV_COMPAT),
              "No status=\"okay\" danovski,quadruped nodes found in devicetree");

@@ -20,7 +20,7 @@
 
 #include "voltage_regulator/voltage_regulator.h"
 
-LOG_MODULE_REGISTER(voltage_regulator);
+LOG_MODULE_REGISTER(voltage_regulator, CONFIG_VOLTAGE_REGULATOR_MODULE_LOG_LEVEL);
 
 /**
  * @brief Internal helper that writes UICR REGOUT0 to 3.3V and resets.
