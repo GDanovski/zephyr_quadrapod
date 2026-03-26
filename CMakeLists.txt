@@ -28,6 +28,6 @@ set(ZEPHYR_EXTRA_MODULES
 
 find_package(Zephyr REQUIRED HINTS $ENV{ZEPHYR_BASE})
 
-project(zephyr_quadrapod)
+project(Quadruped)
 
 target_sources(app PRIVATE src/main.c)
