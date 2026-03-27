@@ -39,12 +39,14 @@ extern "C"
     /** @brief Supported leg movement commands. */
     enum quadruped_leg_movement
     {
-        QUADRUPED_LEG_MOVEMENT_COXA_UP = 0,    /**< Move coxa up. */
-        QUADRUPED_LEG_MOVEMENT_COXA_DOWN,      /**< Move coxa down. */
-        QUADRUPED_LEG_MOVEMENT_FEMUR_FORWARD,  /**< Move femur forward. */
-        QUADRUPED_LEG_MOVEMENT_FEMUR_BACKWORD, /**< Move femur backword. */
-        QUADRUPED_LEG_MOVEMENT_FEMUR_IDLE,     /**< Keep femur idle. */
-        QUADRUPED_LEG_MOVEMENT_COUNT,          /**< Total number of leg movements. */
+        QUADRUPED_LEG_MOVEMENT_COXA_UP = 0,             /**< Move coxa up. */
+        QUADRUPED_LEG_MOVEMENT_COXA_DOWN,               /**< Move coxa down. */
+        QUADRUPED_LEG_MOVEMENT_FEMUR_FORWARD,           /**< Move femur forward. */
+        QUADRUPED_LEG_MOVEMENT_FEMUR_BACKWORD,          /**< Move femur backword. */
+        QUADRUPED_LEG_MOVEMENT_FEMUR_IDLE,              /**< Keep femur idle. */
+        QUADRUPED_LEG_MOVEMENT_FEMUR_FORWARD_SIDEWALK,  /**< Move femur for sidewalk step. */
+        QUADRUPED_LEG_MOVEMENT_FEMUR_BACKWORD_SIDEWALK, /**< Move femur backword for sidewalk step. */
+        QUADRUPED_LEG_MOVEMENT_COUNT,                   /**< Total number of leg movements. */
     };
 
 /**

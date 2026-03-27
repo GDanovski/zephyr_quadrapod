@@ -34,6 +34,8 @@ LOG_MODULE_REGISTER(move_controller, CONFIG_MOVE_CONTROLLER_MODULE_LOG_LEVEL);
 #define FF QUADRUPED_LEG_MOVEMENT_FEMUR_FORWARD
 #define FB QUADRUPED_LEG_MOVEMENT_FEMUR_BACKWORD
 #define FI QUADRUPED_LEG_MOVEMENT_FEMUR_IDLE
+#define FFS QUADRUPED_LEG_MOVEMENT_FEMUR_FORWARD_SIDEWALK
+#define FBS QUADRUPED_LEG_MOVEMENT_FEMUR_BACKWORD_SIDEWALK
 
 #define FL QUADRUPED_LEG_FRONT_LEFT
 #define FR QUADRUPED_LEG_FRONT_RIGHT
@@ -132,6 +134,37 @@ static enum quadruped_leg_movement gait_femur_movement_for_leg(enum quadruped_le
     return (progression == GAIT_PROGRESSION_FORWARD) ? FB : FF;
 }
 
+static enum quadruped_leg_movement gait_femur_sidewalk_movement_for_leg(enum quadruped_leg_index leg,
+                                                                        bool lifted,
+                                                                        enum gait_progression left_progression,
+                                                                        enum gait_progression right_progression)
+{
+    enum gait_progression progression = gait_leg_progression(leg, left_progression, right_progression);
+
+    if (lifted)
+    {
+        return (progression == GAIT_PROGRESSION_FORWARD) ? FFS : FBS;
+    }
+
+    return (progression == GAIT_PROGRESSION_FORWARD) ? FBS : FFS;
+}
+
+static enum quadruped_leg_movement gait_femur_movement_select_for_leg(enum quadruped_leg_index leg,
+                                                                      bool lifted,
+                                                                      enum gait_progression left_progression,
+                                                                      enum gait_progression right_progression,
+                                                                      bool use_sidewalk_values)
+{
+    if (use_sidewalk_values)
+    {
+        return gait_femur_sidewalk_movement_for_leg(leg, lifted,
+                                                    left_progression, right_progression);
+    }
+
+    return gait_femur_movement_for_leg(leg, lifted,
+                                       left_progression, right_progression);
+}
+
 static int gait_set_idle_pose(void)
 {
     int status = 0;
@@ -158,6 +191,7 @@ static int gait_run_half_cycle(enum quadruped_leg_index lift_leg_1,
                                enum quadruped_leg_index support_leg_2,
                                enum gait_progression left_progression,
                                enum gait_progression right_progression,
+                               bool use_sidewalk_values,
                                uint32_t delay_ms)
 {
     int status = 0;
@@ -175,32 +209,36 @@ static int gait_run_half_cycle(enum quadruped_leg_index lift_leg_1,
     }
 
     if (gait_apply_action(support_leg_1,
-                          gait_femur_movement_for_leg(support_leg_1, false,
-                                                      left_progression, right_progression),
+                          gait_femur_movement_select_for_leg(support_leg_1, false,
+                                                             left_progression, right_progression,
+                                                             use_sidewalk_values),
                           short_delay_ms) != 0)
     {
         status = -EIO;
     }
 
     if (gait_apply_action(support_leg_2,
-                          gait_femur_movement_for_leg(support_leg_2, false,
-                                                      left_progression, right_progression),
+                          gait_femur_movement_select_for_leg(support_leg_2, false,
+                                                             left_progression, right_progression,
+                                                             use_sidewalk_values),
                           half_delay_ms) != 0)
     {
         status = -EIO;
     }
 
     if (gait_apply_action(lift_leg_1,
-                          gait_femur_movement_for_leg(lift_leg_1, true,
-                                                      left_progression, right_progression),
+                          gait_femur_movement_select_for_leg(lift_leg_1, true,
+                                                             left_progression, right_progression,
+                                                             use_sidewalk_values),
                           short_delay_ms) != 0)
     {
         status = -EIO;
     }
 
     if (gait_apply_action(lift_leg_2,
-                          gait_femur_movement_for_leg(lift_leg_2, true,
-                                                      left_progression, right_progression),
+                          gait_femur_movement_select_for_leg(lift_leg_2, true,
+                                                             left_progression, right_progression,
+                                                             use_sidewalk_values),
                           delay_ms) != 0)
     {
         status = -EIO;
@@ -221,16 +259,23 @@ static int gait_run_half_cycle(enum quadruped_leg_index lift_leg_1,
 
 static int gait_run_cycle(enum gait_progression left_progression,
                           enum gait_progression right_progression,
+                          bool use_sidewalk_values,
                           uint32_t delay_ms)
 {
     int status = 0;
 
-    if (gait_run_half_cycle(FR, BL, FL, BR, left_progression, right_progression, delay_ms) != 0)
+    if (gait_run_half_cycle(FR, BL, FL, BR,
+                            left_progression, right_progression,
+                            use_sidewalk_values,
+                            delay_ms) != 0)
     {
         status = -EIO;
     }
 
-    if (gait_run_half_cycle(FL, BR, FR, BL, left_progression, right_progression, delay_ms) != 0)
+    if (gait_run_half_cycle(FL, BR, FR, BL,
+                            left_progression, right_progression,
+                            use_sidewalk_values,
+                            delay_ms) != 0)
     {
         status = -EIO;
     }
@@ -270,14 +315,24 @@ int move_controller_execute(enum move_command cmd, uint32_t delay_ms)
     case MOVE_COMMAND_IDLE:
         return gait_set_idle_pose();
     case MOVE_COMMAND_FORWARD:
-        return gait_run_cycle(GAIT_PROGRESSION_FORWARD, GAIT_PROGRESSION_FORWARD, delay_ms);
+        return gait_run_cycle(GAIT_PROGRESSION_FORWARD, GAIT_PROGRESSION_FORWARD,
+                              false, delay_ms);
     case MOVE_COMMAND_REVERSE:
-        return gait_run_cycle(GAIT_PROGRESSION_REVERSE, GAIT_PROGRESSION_REVERSE, delay_ms);
+        return gait_run_cycle(GAIT_PROGRESSION_REVERSE, GAIT_PROGRESSION_REVERSE,
+                              false, delay_ms);
+    case MOVE_COMMAND_LEFT:
+        return gait_run_cycle(GAIT_PROGRESSION_FORWARD, GAIT_PROGRESSION_FORWARD,
+                              true, delay_ms);
+    case MOVE_COMMAND_RIGHT:
+        return gait_run_cycle(GAIT_PROGRESSION_REVERSE, GAIT_PROGRESSION_REVERSE,
+                              true, delay_ms);
     case MOVE_COMMAND_ROTATE_LEFT:
     {
-        int status = gait_run_cycle(GAIT_PROGRESSION_FORWARD, GAIT_PROGRESSION_REVERSE, delay_ms);
+        int status = gait_run_cycle(GAIT_PROGRESSION_FORWARD, GAIT_PROGRESSION_REVERSE,
+                                    true, delay_ms);
 
-        if (gait_run_cycle(GAIT_PROGRESSION_FORWARD, GAIT_PROGRESSION_REVERSE, delay_ms) != 0)
+        if (gait_run_cycle(GAIT_PROGRESSION_FORWARD, GAIT_PROGRESSION_REVERSE,
+                           true, delay_ms) != 0)
         {
             status = -EIO;
         }
@@ -286,9 +341,11 @@ int move_controller_execute(enum move_command cmd, uint32_t delay_ms)
     }
     case MOVE_COMMAND_ROTATE_RIGHT:
     {
-        int status = gait_run_cycle(GAIT_PROGRESSION_REVERSE, GAIT_PROGRESSION_FORWARD, delay_ms);
+        int status = gait_run_cycle(GAIT_PROGRESSION_REVERSE, GAIT_PROGRESSION_FORWARD,
+                                    true, delay_ms);
 
-        if (gait_run_cycle(GAIT_PROGRESSION_REVERSE, GAIT_PROGRESSION_FORWARD, delay_ms) != 0)
+        if (gait_run_cycle(GAIT_PROGRESSION_REVERSE, GAIT_PROGRESSION_FORWARD,
+                           true, delay_ms) != 0)
         {
             status = -EIO;
         }

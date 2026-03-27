@@ -32,6 +32,8 @@ extern "C"
         MOVE_COMMAND_IDLE = 0,     /**< Stop and hold neutral stance. */
         MOVE_COMMAND_FORWARD,      /**< Advance one gait step forward. */
         MOVE_COMMAND_REVERSE,      /**< Advance one gait step backward. */
+        MOVE_COMMAND_LEFT,         /**< Advance one gait step to the left. */
+        MOVE_COMMAND_RIGHT,        /**< Advance one gait step to the right. */
         MOVE_COMMAND_ROTATE_LEFT,  /**< Advance one gait step rotating left. */
         MOVE_COMMAND_ROTATE_RIGHT, /**< Advance one gait step rotating right. */
         MOVE_COMMAND_COUNT,        /**< Total number of movement commands. */

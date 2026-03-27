@@ -39,30 +39,38 @@ static const uint16_t
                                      [QUADRUPED_LEG_FRONT_LEFT] = {
                                          [QUADRUPED_LEG_MOVEMENT_COXA_UP] = 800u,
                                          [QUADRUPED_LEG_MOVEMENT_COXA_DOWN] = 500u,
-                                         [QUADRUPED_LEG_MOVEMENT_FEMUR_FORWARD] = 1750u,
-                                         [QUADRUPED_LEG_MOVEMENT_FEMUR_BACKWORD] = 1150u,
+                                         [QUADRUPED_LEG_MOVEMENT_FEMUR_FORWARD_SIDEWALK] = 1750u,
+                                         [QUADRUPED_LEG_MOVEMENT_FEMUR_BACKWORD_SIDEWALK] = 1150u,
                                          [QUADRUPED_LEG_MOVEMENT_FEMUR_IDLE] = 1450u,
+                                         [QUADRUPED_LEG_MOVEMENT_FEMUR_FORWARD] = 2200u,
+                                         [QUADRUPED_LEG_MOVEMENT_FEMUR_BACKWORD] = 1600u,
                                      },
                                      [QUADRUPED_LEG_FRONT_RIGHT] = {
                                          [QUADRUPED_LEG_MOVEMENT_COXA_UP] = 800u,
                                          [QUADRUPED_LEG_MOVEMENT_COXA_DOWN] = 500u,
-                                         [QUADRUPED_LEG_MOVEMENT_FEMUR_FORWARD] = 1150u,
-                                         [QUADRUPED_LEG_MOVEMENT_FEMUR_BACKWORD] = 1750u,
+                                         [QUADRUPED_LEG_MOVEMENT_FEMUR_FORWARD_SIDEWALK] = 1150u,
+                                         [QUADRUPED_LEG_MOVEMENT_FEMUR_BACKWORD_SIDEWALK] = 1750u,
                                          [QUADRUPED_LEG_MOVEMENT_FEMUR_IDLE] = 1450u,
+                                         [QUADRUPED_LEG_MOVEMENT_FEMUR_FORWARD] = 1500u,
+                                         [QUADRUPED_LEG_MOVEMENT_FEMUR_BACKWORD] = 900u,
                                      },
                                      [QUADRUPED_LEG_BACK_LEFT] = {
                                          [QUADRUPED_LEG_MOVEMENT_COXA_UP] = 800u,
                                          [QUADRUPED_LEG_MOVEMENT_COXA_DOWN] = 500u,
-                                         [QUADRUPED_LEG_MOVEMENT_FEMUR_FORWARD] = 1750u,
-                                         [QUADRUPED_LEG_MOVEMENT_FEMUR_BACKWORD] = 1150u,
+                                         [QUADRUPED_LEG_MOVEMENT_FEMUR_FORWARD_SIDEWALK] = 1750u,
+                                         [QUADRUPED_LEG_MOVEMENT_FEMUR_BACKWORD_SIDEWALK] = 1150u,
                                          [QUADRUPED_LEG_MOVEMENT_FEMUR_IDLE] = 1450u,
+                                         [QUADRUPED_LEG_MOVEMENT_FEMUR_FORWARD] = 900u,
+                                         [QUADRUPED_LEG_MOVEMENT_FEMUR_BACKWORD] = 1500u,
                                      },
                                      [QUADRUPED_LEG_BACK_RIGHT] = {
                                          [QUADRUPED_LEG_MOVEMENT_COXA_UP] = 800u,
                                          [QUADRUPED_LEG_MOVEMENT_COXA_DOWN] = 500u,
-                                         [QUADRUPED_LEG_MOVEMENT_FEMUR_FORWARD] = 1150u,
-                                         [QUADRUPED_LEG_MOVEMENT_FEMUR_BACKWORD] = 1750u,
+                                         [QUADRUPED_LEG_MOVEMENT_FEMUR_FORWARD_SIDEWALK] = 1150u,
+                                         [QUADRUPED_LEG_MOVEMENT_FEMUR_BACKWORD_SIDEWALK] = 1750u,
                                          [QUADRUPED_LEG_MOVEMENT_FEMUR_IDLE] = 1450u,
+                                         [QUADRUPED_LEG_MOVEMENT_FEMUR_FORWARD] = 1600u,
+                                         [QUADRUPED_LEG_MOVEMENT_FEMUR_BACKWORD] = 2200u,
                                      },
 };
 
@@ -112,6 +120,8 @@ int quadruped_set_leg_movement(enum quadruped_leg_index leg_index,
     case QUADRUPED_LEG_MOVEMENT_FEMUR_FORWARD:
     case QUADRUPED_LEG_MOVEMENT_FEMUR_BACKWORD:
     case QUADRUPED_LEG_MOVEMENT_FEMUR_IDLE:
+    case QUADRUPED_LEG_MOVEMENT_FEMUR_FORWARD_SIDEWALK:
+    case QUADRUPED_LEG_MOVEMENT_FEMUR_BACKWORD_SIDEWALK:
         err = leg_set_femur_pulse_width(leg_dev, val);
         break;
     default:
