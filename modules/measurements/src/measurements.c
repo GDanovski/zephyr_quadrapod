@@ -95,7 +95,7 @@ static int measurements_sample_fetch_impl(const struct device *dev, enum sensor_
     /* Apply voltage divider correction: V_actual = V_adc * (numerator / denominator) */
     if ((cfg->voltage_divider_r2 > 0) && (cfg->voltage_divider_r1 != cfg->voltage_divider_r2))
     {
-        data->millivolts = (data->millivolts * cfg->voltage_divider_r2) / (cfg->voltage_divider_r1 + cfg->voltage_divider_r2);
+        data->millivolts = (data->millivolts * (cfg->voltage_divider_r1 + cfg->voltage_divider_r2)) / cfg->voltage_divider_r2;
     }
 
     return 0;
